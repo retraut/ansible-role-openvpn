@@ -15,12 +15,12 @@
     - openssl-ca.ext
 
 - name: Generate CA key
-  command: openssl req -nodes -newkey rsa:{{openvpn_rsa_bits}} -keyout ca.key -out ca-csr.pem -days 3650 -subj /CN=OpenVPN-CA-{{inventory_hostname}}/
+  command: openssl req -nodes -newkey rsa:{{openvpn_rsa_bits}} -keyout ca-key.pem -out ca-csr.pem -days 3650 -subj /CN=OpenVPN-CA-{{inventory_hostname}}/
     chdir="{{openvpn_key_dir}}"
-    creates=ca.key
+    creates=ca-key.pem
 
 - name: Sign CA key
-  command: openssl x509 -req -in ca-csr.pem -out ca.crt -CAcreateserial -signkey ca.key -sha256 -days 3650 -extfile openssl-ca.ext
+  command: openssl x509 -req -in ca-csr.pem -out ca.crt -CAcreateserial -signkey ca-key.pem -sha256 -days 3650 -extfile openssl-ca.ext
     chdir="{{openvpn_key_dir}}"
     creates=ca.crt
 
@@ -35,7 +35,7 @@
     mode=0400
 
 - name: sign server key
-  command: openssl x509 -req -in server.csr -out server.crt -CA ca.crt -CAkey ca.key -sha256 -days 3650 -CAcreateserial -extfile openssl-server.ext
+  command: openssl x509 -req -in server.csr -out server.crt -CA ca.crt -CAkey ca-key.pem -sha256 -days 3650 -CAcreateserial -extfile openssl-server.ext
     chdir="{{openvpn_key_dir}}"
     creates=server.crt
 
@@ -57,7 +57,7 @@
 
 # Alternatively, if you're concerned about logjam attacks
 - name: generate dh params
-  command: openssl dhparam -out {{openvpn_key_dir}}/dh.pem {{openvpn_rsa_bits}}
+  command: openssl dhparam -out /etc/openvpn/keys/dh.pem {{openvpn_rsa_bits}}
     chdir="{{openvpn_key_dir}}"
     creates=dh.pem
   when: not openvpn_use_pregenerated_dh_params

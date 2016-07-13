@@ -55,8 +55,3 @@
   include: config.yml
   tags:
     - configure
-
-- name: Install Easy-RSA
-  include: install_easy_rsa.yml
-  tags:
-      - install_easy_rsa

@@ -3,7 +3,7 @@
    yum: name=easy-rsa  state=present
 
  - name: copy easy-rsa
-   command: cp -R /usr/share/easy-rsa /etc/openvpn
+   raw: cp -R /usr/share/easy-rsa/2.0/* /etc/openvpn
 
  - name: create index.txt
    file: path={{openvpn_key_dir}}/index.txt state=touch

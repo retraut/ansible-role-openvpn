@@ -1,6 +1,6 @@
 ---
 # defaults file for openvpn
-openvpn_key_dir: /etc/openvpn/easy-rsa/2.0/keys
+openvpn_key_dir: /etc/openvpn/keys
 openvpn_port: 1194
 openvpn_proto: udp
 openvpn_rsa_bits: 2048

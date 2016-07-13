@@ -1,0 +1,10 @@
+# install easy-rsa and placed for the right place
+ - name: yum install easy-rsa                                                                                                                      
+   yum: name=easy-rsa  state=present
+
+ - name: copy easy-rsa
+   command: cp -R /usr/share/easy-rsa /etc/openvpn
+
+ - name: create index.txt
+   file: path={{openvpn_key_dir}}/index.txt state=touch
+

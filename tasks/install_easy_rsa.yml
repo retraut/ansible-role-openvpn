@@ -12,4 +12,4 @@
    file: path={{openvpn_key_dir}}/index.txt.attr state=touch
 
  - name: link ca.key to ca-key.pam
-   file: ln /etc/openvpn/keys/ca-key.pem  /etc/openvpn/keys/ca.key
+   raw: ln /etc/openvpn/keys/ca-key.pem  /etc/openvpn/keys/ca.key
